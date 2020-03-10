@@ -5,8 +5,8 @@
    Tutorial 11
    Review Assignment
 
-   Author: 
-   Date:   
+   Author: Daniel Garcia
+   Date:   4-9-20
 
    Global Variables
    ================
@@ -47,6 +47,57 @@
 	
 */
 
+var allCells;
+window.onload = startUp;
+
+function startUp(){
+   document.getElementById("puzzleTitle").innerHTML = "Puzzle 1";
+   document.getElementById("puzzle").innerHTML = drawHitori(hitori1Numbers, hitori1Blocks, hitori1Rating);
+
+   var puzzleButtons = document.getElementsByClassName("puzzles");
+   for(var i = 0; i < puzzleButtons.length; i++){
+      puzzleButtons[i].onclick = switchPuzzle;
+   }
+
+   setupPuzzle(); //prolly not wurk
+
+   document.getElementById("check").onclick = finderrors; //is it like this?
+   document.getElementById("solve").onclick = showSolution;
+
+
+
+   // document.addEventListener("click", findErrors); // how do i do these
+   // document.addEventListener("click", showSolution);
+}
+
+function switchPuzzle(e){
+   if(confirm("Whatch it bud u gonna change")){
+
+   var puzzleId = e.target.id;
+   var puzzleTitle = e.target.value;
+
+   document.getElementById("puzzleTitle").innerHTML = puzzleTitle;
+
+   switch(puzzleId){
+      case "puzzle1":
+         document.getElementById("puzzle1").innerHTML = drawPuzzle(hitori1Numbers, hitori1Blocks, hitori1Rating);
+         break;
+      case "puzzle2":
+         document.getElementById("puzzle2").innerHTML = drawPuzzle(hitori2Numbers, hitori2Blocks, hitori2Rating);
+         break;
+      case "puzzle3":
+         document.getElementById("puzzle3").innerHTML = drawPuzzle(hitori3Numbers, hitori3Blocks, hitori3Rating);
+         break;   
+   }
+   
+   setupPuzzle();
+   }
+}
+
+
+
+
+       
 
 
 
@@ -55,8 +106,6 @@
 
 
 
-
-         
 /* ================================================================= */
 
 function checkSolution() {
