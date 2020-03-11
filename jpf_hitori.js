@@ -61,7 +61,7 @@ function startUp(){
 
    setupPuzzle(); //prolly not wurk
 
-   document.getElementById("check").onclick = finderrors; //is it like this?
+   document.getElementById("check").onclick = findErrors; //is it like this?
    document.getElementById("solve").onclick = showSolution;
 
 
@@ -70,7 +70,7 @@ function startUp(){
    // document.addEventListener("click", showSolution);
 }
 
-function switchPuzzle(e){
+function switchPuzzle(e){        //this might not be entirly correct
    if(confirm("Whatch it bud u gonna change")){
 
    var puzzleId = e.target.id;
@@ -80,13 +80,13 @@ function switchPuzzle(e){
 
    switch(puzzleId){
       case "puzzle1":
-         document.getElementById("puzzle1").innerHTML = drawPuzzle(hitori1Numbers, hitori1Blocks, hitori1Rating);
+         document.getElementById("puzzle").innerHTML = drawHitori(hitori1Numbers, hitori1Blocks, hitori1Rating);
          break;
       case "puzzle2":
-         document.getElementById("puzzle2").innerHTML = drawPuzzle(hitori2Numbers, hitori2Blocks, hitori2Rating);
+         document.getElementById("puzzle").innerHTML = drawHitori(hitori2Numbers, hitori2Blocks, hitori2Rating);
          break;
       case "puzzle3":
-         document.getElementById("puzzle3").innerHTML = drawPuzzle(hitori3Numbers, hitori3Blocks, hitori3Rating);
+         document.getElementById("puzzle").innerHTML = drawHitori(hitori3Numbers, hitori3Blocks, hitori3Rating);
          break;   
    }
    
@@ -94,10 +94,76 @@ function switchPuzzle(e){
    }
 }
 
+function setupPuzzle(){ //does the e go here??
+   allCells = document.querySelectorAll("table#hitoriGrid td");
+
+   for(var i = 0; i < allCells.length; i++){
+      allCells[i].style.backgroundColor = "white"
+
+      allCells[i].style.color = "black"
+
+      allCells[i].style.borderRadius = "0px"
+
+      //step 7c is muy dificíl            //WHERE DOES THE E GO
+      allCells[i].addEventListener("mousedown",
+         function(e){ //Does the e go here
+            if(e.shiftKey){
+               e.target.style.backgroundColor = "white"
+               e.target.style.color = "black"
+               e.target.style.borderRadius = "0px"
+            }else if(e.altKey){
+               e.target.style.backgroundColor = "black"
+               e.target.style.color = "white"
+               e.target.style.borderRadius = "0px"
+            }else{
+               e.target.style.backgroundColor = "rgb(101, 101, 101)";
+               e.target.style.color = "white"
+               e.target.style.borderRadius = "50%"
+            }
+            e.preventDefault();
+         }
+      )
+
+         //bruh we gotta change the cursor now?
+         allCells[i].addEventListener("mouseover",
+         function(e){
+            //cursor styles
+            if(e.shiftKey){
+               e.target.style.cursor = "url(jpf_eraser.png), alias";
+            }else if(e.altKey){
+               e.target.style.cursor = "url(jpf_block.png), cell";
+            }else{
+               e.target.style.cursor = "url(jpf_circle.png), pointer";
+            }
+         }
+      );
+      checkSolution();
+   
 
 
+   }
 
-       
+   
+
+}
+
+   //but how dude
+function findErrors(){
+   for(var i = 0; i < allCells.length; i++){
+      if((allCells[i].className === "blocks" && allCells[i].style.backgroundColor === "rgb(101, 101, 101)") || (allCells[i].className === "circles" && allCells[i].style.backgroundColor === "black")){
+         allCells[i].style.color = "red";
+      }
+   }
+   setTimeout(
+      function(e){
+         for(var i = 0; i < allCells.length; i++){
+            if((allCells[i].className === "blocks" && allCells[i].style.backgroundColor === "rgb(101, 101, 101)") || (allCells[i].className === "circles" && allCells[i].style.backgroundColor === "black")){
+               allCells[i].style.color = "white";
+            }
+         }
+      }, 500);
+}
+
 
 
 
